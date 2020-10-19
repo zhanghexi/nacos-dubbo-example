@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: dubbo-consumer
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 192.168.93.132:8099
+        port: 8179
+feign:
+  sentinel:
+    enabled: true
