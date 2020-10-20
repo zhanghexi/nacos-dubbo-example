@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * @ClassName RpcRemoteProviderImpl
  * @User zhang
  * @Description 为了方便服务内部引用，要加上@Component注解
+ * 参考文献：https://blog.csdn.net/u011618818/article/details/106077989
  * @Author Lucien
  * @Date 2020/10/20 14:18
  * @Version 1.0
