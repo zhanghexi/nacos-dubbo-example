@@ -8,7 +8,7 @@ package org.example.api.service;
  * @Date 2020/10/19 11:01
  * @Version 1.0
  */
-public interface DubboProviderService {
+public interface RpcRemoteProvider {
 
     String hello(String msg);
 }

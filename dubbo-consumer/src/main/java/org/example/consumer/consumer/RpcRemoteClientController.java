@@ -1,9 +1,10 @@
 package org.example.consumer.consumer;
 
 import org.apache.dubbo.config.annotation.Reference;
-import org.example.api.service.DubboProviderService;
+import org.example.api.service.RpcRemoteProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  */
 @RestController
-public class DubboConsumerController {
+@RequestMapping(value = "/remote")
+public class RpcRemoteClientController {
 
     @Reference(version = "1.0.0")
-    private DubboProviderService dubboProviderService;
+    private RpcRemoteProvider rpcRemoteProvider;
 
     @GetMapping(value = "/hello/{msg}")
     public String hello(@PathVariable("msg") String msg) {
-        return dubboProviderService.hello(msg);
+        return rpcRemoteProvider.hello(msg);
     }
 }
