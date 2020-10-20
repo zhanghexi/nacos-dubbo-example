@@ -9,3 +9,9 @@ spring:
 feign:
   sentinel:
     enabled: true
+#监控管理
+management:
+  endpoint:
+    web:
+      exposure:
+        include: "*"
