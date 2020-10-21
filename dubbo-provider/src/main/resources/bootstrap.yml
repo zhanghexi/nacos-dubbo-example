@@ -1,12 +1,13 @@
 spring:
-  application:
-    name: dubbo-provider
   profiles:
+    #环境配置
     active: dev
   cloud:
     nacos:
+      #配置注册服务发现地址
       discovery:
         server-addr: 192.168.93.132:8848
+      #通过config配置读取nacos注册中心对应的配置文件(文件名称和nacos的文件名一致)
       config:
         server-addr: 192.168.93.132:8848
         file-extension: yaml

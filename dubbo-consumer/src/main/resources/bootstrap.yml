@@ -1,7 +1,6 @@
 spring:
-  application:
-    name: dubbo-consumer
   profiles:
+    #环境配置
     active: dev
   cloud:
     nacos:
