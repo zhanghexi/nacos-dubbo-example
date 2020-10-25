@@ -16,9 +16,36 @@ import java.math.BigDecimal;
 @Data
 public class EmployeeDTO implements Serializable {
 
-    private String name;
-    private Long sex;
-    private Long role;
-    private Long age;
-    private BigDecimal salary;
+    /**
+     * 员工姓名
+     */
+    private String empName;
+    /**
+     * 性别
+     */
+    private String empSex;
+    /**
+     * 年龄
+     */
+    private Long empAge;
+    /**
+     * 邮箱
+     */
+    private String empEmail;
+    /**
+     * 地址
+     */
+    private String empAddress;
+    /**
+     * 薪资
+     */
+    private BigDecimal empSalary;
+    /**
+     * 角色名称
+     */
+    private String deptName;
+    /**
+     * 角色名称
+     */
+    private String roleName;
 }

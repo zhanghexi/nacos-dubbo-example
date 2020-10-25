@@ -27,6 +27,7 @@ public class MapperScanConfig {
         Properties properties = new Properties();
         properties.setProperty("mappers", "tk.mybatis.mapper.common.Mapper");
         configurer.setProperties(properties);
+        configurer.setSqlSessionFactoryBeanName("dataSourceSessionFactory");
         return configurer;
     }
 }

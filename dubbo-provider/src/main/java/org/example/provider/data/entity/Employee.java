@@ -9,7 +9,7 @@ import lombok.Data;
 
 /**
  * @describe: 员工信息表
- * @create: 2020-10-24 00:51:15
+ * @create: 2020-10-25 23:13:53
  * @table: EMPLOYEE
  * @author: Lucien
  * @version: 1.0
@@ -42,7 +42,7 @@ public class Employee implements Serializable {
     private String empName;
 
     /**
-     * 性别（1男，2女）
+     * 员工性别（1男，2女）
      * Column:    EMP_SEX
      * Length:    11
      * DefaultValue:  NULL
@@ -50,16 +50,6 @@ public class Employee implements Serializable {
      */
     @Column(name = "EMP_SEX")
     private Long empSex;
-
-    /**
-     * 员工类别（1普通员工、2组长、3经理、4总监）
-     * Column:    EMP_ROLE
-     * Length:    11
-     * DefaultValue:  NULL
-     * Nullable:  true
-     */
-    @Column(name = "EMP_ROLE")
-    private Long empRole;
 
     /**
      * 薪资（保留两位小数）
@@ -100,4 +90,54 @@ public class Employee implements Serializable {
      */
     @Column(name = "EMP_AGE")
     private Long empAge;
+
+    /**
+     * 员工编号
+     * Column:    EMP_CODE
+     * Length:    255
+     * DefaultValue:  无默认值
+     * Nullable:  true
+     */
+    @Column(name = "EMP_CODE")
+    private String empCode;
+
+    /**
+     * 员工住址
+     * Column:    EMP_ADDRESS
+     * Length:    255
+     * DefaultValue:  无默认值
+     * Nullable:  true
+     */
+    @Column(name = "EMP_ADDRESS")
+    private String empAddress;
+
+    /**
+     * 员工邮箱
+     * Column:    EMP_EMAIL
+     * Length:    255
+     * DefaultValue:  无默认值
+     * Nullable:  true
+     */
+    @Column(name = "EMP_EMAIL")
+    private String empEmail;
+
+    /**
+     * 角色编号
+     * Column:    ROLE_CODE
+     * Length:    255
+     * DefaultValue:  无默认值
+     * Nullable:  true
+     */
+    @Column(name = "ROLE_CODE")
+    private String roleCode;
+
+    /**
+     * 部门编号
+     * Column:    DEP_CODE
+     * Length:    255
+     * DefaultValue:  无默认值
+     * Nullable:  true
+     */
+    @Column(name = "DEP_CODE")
+    private String depCode;
 }
