@@ -18,6 +18,7 @@
         <module>dubbo-provider</module>
         <module>dubbo-api</module>
         <module>dubbo-consumer</module>
+        <module>dubbo-common</module>
     </modules>
 
     <!--基础版本-->
@@ -55,6 +56,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.4.3</version>
         </dependency>
     </dependencies>
 

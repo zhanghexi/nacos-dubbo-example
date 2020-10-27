@@ -29,7 +29,7 @@ public class EmployeeProviderImpl implements EmployeeRemoteProvider {
     public List<EmployeeDTO> queryEmployeesByConditions(String empName) {
         log.info("方法入参:{}", empName);
         List<EmployeeDTO> employeeDTOList = employeeMapper.queryEmployeesByConditions(empName);
-        log.info("返回的信息:\n{}", JSONUtil.toJsonPrettyStr(employeeDTOList));
+        log.info("返回的信息:\n{}", JSONUtil.toJsonStr(employeeDTOList));
         return employeeDTOList;
     }
 }
