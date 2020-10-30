@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.example.common.aop.aspect.LogAspect,\
+  org.example.common.aop.service.SysLogService,\
+  org.example.common.aop.util.DBUtils

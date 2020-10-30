@@ -26,7 +26,7 @@ public class EmployeeRemoteClientController {
     @Reference(version = "1.0.0")
     private EmployeeRemoteProvider employeeRemoteProvider;
 
-    @OperationLog
+    @OperationLog(operEvent = "根据员工名字模糊查询员工信息", operType = 1)
     @GetMapping(value = "/queryEmployeesByConditions/{empName}")
     public List<EmployeeDTO> queryEmployeesByConditions(@PathVariable("empName") String empName) {
         return employeeRemoteProvider.queryEmployeesByConditions(empName);
