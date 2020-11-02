@@ -23,7 +23,7 @@ import java.sql.SQLException;
 @Component
 public class SysLogService {
 
-    private static final String LOG_SQL = "INSERT INTO OPERATION (ID,CLASS_NAME,REQUEST_METHOD,DESCRIPTION,METHOD_TYPE," +
+    private static final String LOG_SQL = "INSERT INTO SYSTEM_LOG (ID,CLASS_NAME,REQUEST_METHOD,DESCRIPTION,METHOD_TYPE," +
             "CREATED_BY,REQUEST_ADDRESS,REQUEST_IP,REQUEST_PORT,REQUEST_PATH,REQUEST_TYPE,REQUEST_PARAMS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
     @Async
