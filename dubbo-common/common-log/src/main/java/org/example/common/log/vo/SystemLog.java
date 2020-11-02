@@ -39,7 +39,7 @@ public class SystemLog implements Serializable {
     /**
      * 请求人
      */
-    private String createBy;
+    private String createdBy;
     /**
      * 请求地址
      */
@@ -51,7 +51,7 @@ public class SystemLog implements Serializable {
     /**
      * 请求端口
      */
-    private String requestPort;
+    private Integer requestPort;
     /**
      * 请求路径
      */

@@ -106,26 +106,48 @@ public class LogAspect {
                     }
                 }
             }
+            /*2、获取日志参数*/
+            String className = joinPoint.getTarget().getClass().getName();
+            String requestMethod = joinPoint.getSignature().getName();
             String operationType = getAnnotationLog(joinPoint).operationType().getType();
             String operationName = getAnnotationLog(joinPoint).operationName();
-            /*2、输出日志参数*/
+            String createdBy = System.getProperty("user.name");
+            String requestAddress = WebUtils.getRequest().getServerName();
+            String requestIp = ServletUtil.getClientIP(WebUtils.getRequest());
+            int requestPort = WebUtils.getRequest().getServerPort();
+
+            String requestURI = WebUtils.getRequest().getRequestURI();
+            String requestPath = requestURI.substring(0, requestURI.lastIndexOf("/"));
+            String requestType = WebUtils.getRequest().getMethod();
+            /*3、输出日志参数*/
             log.info("=========================输出日志参数=========================");
-            log.info("请求类:" + joinPoint.getTarget().getClass().getName());
-            log.info("请求方法:" + joinPoint.getSignature().getName());
+            log.info("请求类:" + className);
+            log.info("请求方法:" + requestMethod);
             log.info("方法描述:" + operationName);
             log.info("方法类型:" + operationType);
-            log.info("请求人:" + System.getProperty("user.name"));
-            log.info("请求地址:" + WebUtils.getRequest().getServerName());
-            log.info("请求IP:" + ServletUtil.getClientIP(WebUtils.getRequest()));
-            log.info("请求端口:" + WebUtils.getRequest().getServerPort());
-            String requestURI = WebUtils.getRequest().getRequestURI();
-            log.info("请求路径:" + requestURI.substring(0, requestURI.lastIndexOf("/")));
-            log.info("请求方式:" + WebUtils.getRequest().getMethod());
+            log.info("请求人:" + createdBy);
+            log.info("请求地址:" + requestAddress);
+            log.info("请求IP:" + requestIp);
+            log.info("请求端口:" + requestPort);
+            log.info("请求路径:" + requestPath);
+            log.info("请求方式:" + requestType);
             log.info("请求参数:" + params);
             log.info("返回值:" + JSONUtil.toJsonStr(result));
             /*存入数据库*/
-            /*SystemLog systemLog = new SystemLog();
-            systemLog.setId(UUID.randomUUID().toString());*/
+            SystemLog systemLog = new SystemLog();
+            systemLog.setId(UUID.randomUUID().toString());
+            systemLog.setClassName(className);
+            systemLog.setRequestMethod(requestMethod);
+            systemLog.setDescription(operationName);
+            systemLog.setMethodType(operationType);
+            systemLog.setCreatedBy(createdBy);
+            systemLog.setRequestAddress(requestAddress);
+            systemLog.setRequestIp(requestIp);
+            systemLog.setRequestPort(requestPort);
+            systemLog.setRequestPath(requestPath);
+            systemLog.setRequestType(requestType);
+            systemLog.setRequestParams(params);
+            sysLogService.saveLog(systemLog);
         } catch (Exception e) {
             log.error("记录日志异常:" + e.getMessage());
         }
