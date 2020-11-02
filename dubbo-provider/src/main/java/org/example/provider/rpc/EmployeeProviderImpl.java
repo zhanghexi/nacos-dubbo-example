@@ -1,6 +1,5 @@
 package org.example.provider.rpc;
 
-import cn.hutool.json.JSONUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.config.annotation.Service;
 import org.example.api.dto.EmployeeDTO;
@@ -27,9 +26,6 @@ public class EmployeeProviderImpl implements EmployeeRemoteProvider {
 
     @Override
     public List<EmployeeDTO> queryEmployeesByConditions(String empName) {
-        log.info("方法入参:{}", empName);
-        List<EmployeeDTO> employeeDTOList = employeeMapper.queryEmployeesByConditions(empName);
-        log.info("返回的信息:\n{}", JSONUtil.toJsonStr(employeeDTOList));
-        return employeeDTOList;
+        return employeeMapper.queryEmployeesByConditions(empName);
     }
 }

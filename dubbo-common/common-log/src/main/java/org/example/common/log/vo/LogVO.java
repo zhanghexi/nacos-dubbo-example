@@ -1,4 +1,4 @@
-package org.example.common.aop.vo;
+package org.example.common.log.vo;
 
 import lombok.Data;
 

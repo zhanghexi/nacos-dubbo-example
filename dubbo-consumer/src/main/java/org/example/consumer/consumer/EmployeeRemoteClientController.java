@@ -3,7 +3,8 @@ package org.example.consumer.consumer;
 import org.apache.dubbo.config.annotation.Reference;
 import org.example.api.dto.EmployeeDTO;
 import org.example.api.service.EmployeeRemoteProvider;
-import org.example.common.aop.annotation.OperationLog;
+import org.example.common.log.annotation.OperationLog;
+import org.example.common.log.enums.OperationTypeEnum;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class EmployeeRemoteClientController {
     @Reference(version = "1.0.0")
     private EmployeeRemoteProvider employeeRemoteProvider;
 
-    @OperationLog(operEvent = "根据员工名字模糊查询员工信息", operType = 1)
+    @OperationLog(operationName = "根据员工名字模糊查询员工信息", operationType = OperationTypeEnum.SELECT)
     @GetMapping(value = "/queryEmployeesByConditions/{empName}")
     public List<EmployeeDTO> queryEmployeesByConditions(@PathVariable("empName") String empName) {
         return employeeRemoteProvider.queryEmployeesByConditions(empName);

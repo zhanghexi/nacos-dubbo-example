@@ -1,8 +1,9 @@
-package org.example.common.aop.service;
+package org.example.common.log.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.example.common.aop.util.DBUtils;
-import org.example.common.aop.vo.LogVO;
+import org.example.common.log.util.DBUtils;
+import org.example.common.log.vo.LogVO;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,13 +23,15 @@ import java.sql.SQLException;
 @Component
 public class SysLogService {
 
-    private static final String SQL = "INSERT INTO OPERATION (CLIENT_IP, USERNAME, OPER_TYPE, OPER_URL, OPER_EVENT, REQ_PARAM, REQ_TYPE) VALUES (?,?,?,?,?,?,?)";
+    private static final String LOG_SQL = "INSERT INTO OPERATION (CLIENT_IP, USERNAME, OPER_TYPE, OPER_URL, OPER_EVENT, " +
+            "REQ_PARAM, REQ_TYPE) VALUES (?,?,?,?,?,?,?)";
 
+    @Async
     public void saveLog(LogVO logVO) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = DBUtils.getConnection();
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement(SQL);
+            ps = connection.prepareStatement(LOG_SQL);
             ps.setString(1, logVO.getClientIp());
             ps.setString(2, logVO.getUsername());
             ps.setLong(3, logVO.getOperType());

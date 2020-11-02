@@ -1,4 +1,4 @@
-package org.example.common.aop.util;
+package org.example.common.log.util;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -19,16 +19,19 @@ import java.util.Properties;
 @Log4j2
 @Component
 public class DBUtils {
+
     /**
      * properties文件名
      */
     private static String defaultName = "jdbc.properties";
 
     /**
-     * 获取Connection
+     * 获取数据库Connection连接
      *
-     * @return connection
-     * @throws Exception
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException
      */
     public static Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
         Connection connection = getConnection(defaultName);
@@ -36,25 +39,28 @@ public class DBUtils {
     }
 
     /**
-     * 通过properties文件名获取Connection
+     * 读取连接参数
      *
-     * @param fileName properties文件名
-     * @return Connection
-     * @throws Exception
+     * @param fileName
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
      */
     public static Connection getConnection(String fileName)
             throws ClassNotFoundException, SQLException, IOException {
-        //IO流读取jdbc.properties文件
+        // 1、IO流读取jdbc.properties文件
         InputStream in = DBUtils.class.getClassLoader().getResourceAsStream(fileName);
-        // 读取参数
+        // 2、读取参数
         Properties properties = new Properties();
         properties.load(in);
         String driver = properties.getProperty("jdbc.driver");
         String url = properties.getProperty("jdbc.url");
         String user = properties.getProperty("jdbc.username");
         String password = properties.getProperty("jdbc.password");
-
+        /*3、加载驱动*/
         Class.forName(driver);
+        /*4、建立连接*/
         Connection connection = DriverManager.getConnection(url, user, password);
         return connection;
     }
