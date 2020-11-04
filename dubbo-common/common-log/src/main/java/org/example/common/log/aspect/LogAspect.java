@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.UUID;
-
 /**
  * @ClassName LogAspect
  * @User zhang
@@ -48,19 +46,14 @@ public class LogAspect {
      * @return
      */
     @Around("operationLog()")
-    public Object countMethodExecutionTime(ProceedingJoinPoint joinPoint) {
-        log.info("=========================方法开始执行=========================");
+    public Object countMethodExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("====================================方法开始执行====================================");
         long startTime = System.currentTimeMillis();
-        Object result = null;
-        try {
-            /*调用 proceed() 方法才会真正的执行实际被代理的方法*/
-            result = joinPoint.proceed();
-            long endTime = System.currentTimeMillis() - startTime;
-            log.info("方法执行时间:" + endTime + "毫秒");
-            log.info("=========================方法执行结束=========================");
-        } catch (Throwable throwable) {
-            log.error("计算方法执行时间:", throwable.getMessage());
-        }
+        /*调用 proceed() 方法才会真正的执行实际被代理的方法*/
+        Object result = joinPoint.proceed();
+        long endTime = System.currentTimeMillis() - startTime;
+        log.info("方法执行时间:" + endTime + "毫秒");
+        log.info("====================================方法执行结束====================================");
         return result;
     }
 
@@ -70,9 +63,9 @@ public class LogAspect {
      * @param joinPoint
      */
     @AfterReturning(pointcut = "operationLog()", returning = "result")
-    public void afterReturn(JoinPoint joinPoint, Object result) {
+    public void afterReturn(JoinPoint joinPoint, Object result) throws Exception {
         /*调用打印日志的方法*/
-        invokePrintLog(joinPoint, null, result);
+        invokePrintLog(joinPoint, result);
     }
 
     /**
@@ -83,74 +76,72 @@ public class LogAspect {
      */
     @AfterThrowing(value = "operationLog()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Exception e) {
-        invokePrintLog(joinPoint, e, null);
+        /*在此打印哪个类、哪个方法报错，并提示异常信息*/
+        String className = joinPoint.getTarget().getClass().getName();
+        String methodName = joinPoint.getSignature().getName();
+        log.error(className + "类的" + methodName + "方法报错! 异常信息:", e.getMessage());
     }
 
     /**
      * 日志打印，存入数据库
      *
      * @param joinPoint
-     * @param ex
      * @param result
      */
-    private void invokePrintLog(JoinPoint joinPoint, Exception ex, Object result) {
-        try {
-            /*1、拼接请求参数*/
-            String params = "";
-            if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-                for (int i = 0; i < joinPoint.getArgs().length; i++) {
-                    params += JSONUtil.toJsonStr(joinPoint.getArgs()[i]) + ";";
-                    if (i == joinPoint.getArgs().length - 1) {
-                        /*最后一个分号去掉*/
-                        params = params.substring(0, params.length() - 1);
-                    }
+    private void invokePrintLog(JoinPoint joinPoint, Object result) throws Exception {
+        /*1、拼接请求参数*/
+        String params = "";
+        if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
+            for (int i = 0; i < joinPoint.getArgs().length; i++) {
+                params += JSONUtil.toJsonStr(joinPoint.getArgs()[i]) + ";";
+                if (i == joinPoint.getArgs().length - 1) {
+                    /*最后一个分号去掉*/
+                    params = params.substring(0, params.length() - 1);
                 }
             }
-            /*2、获取日志参数*/
-            String className = joinPoint.getTarget().getClass().getName();
-            String requestMethod = joinPoint.getSignature().getName();
-            String operationType = getAnnotationLog(joinPoint).operationType().getType();
-            String operationName = getAnnotationLog(joinPoint).operationName();
-            String createdBy = System.getProperty("user.name");
-            String requestAddress = WebUtils.getRequest().getServerName();
-            String requestIp = ServletUtil.getClientIP(WebUtils.getRequest());
-            int requestPort = WebUtils.getRequest().getServerPort();
-
-            String requestURI = WebUtils.getRequest().getRequestURI();
-            String requestPath = requestURI.substring(0, requestURI.lastIndexOf("/"));
-            String requestType = WebUtils.getRequest().getMethod();
-            /*3、输出日志参数*/
-            log.info("=========================输出日志参数=========================");
-            log.info("请求类:" + className);
-            log.info("请求方法:" + requestMethod);
-            log.info("方法描述:" + operationName);
-            log.info("方法类型:" + operationType);
-            log.info("请求人:" + createdBy);
-            log.info("请求地址:" + requestAddress);
-            log.info("请求IP:" + requestIp);
-            log.info("请求端口:" + requestPort);
-            log.info("请求路径:" + requestPath);
-            log.info("请求方式:" + requestType);
-            log.info("请求参数:" + params);
-            log.info("返回值:" + JSONUtil.toJsonStr(result));
-            /*存入数据库*/
-            SystemLog systemLog = new SystemLog();
-            systemLog.setId(UUID.randomUUID().toString());
-            systemLog.setClassName(className);
-            systemLog.setRequestMethod(requestMethod);
-            systemLog.setDescription(operationName);
-            systemLog.setMethodType(operationType);
-            systemLog.setCreatedBy(createdBy);
-            systemLog.setRequestAddress(requestAddress);
-            systemLog.setRequestIp(requestIp);
-            systemLog.setRequestPort(requestPort);
-            systemLog.setRequestPath(requestPath);
-            systemLog.setRequestType(requestType);
-            systemLog.setRequestParams(params);
-            sysLogService.saveLog(systemLog);
-        } catch (Exception e) {
-            log.error("记录日志异常:" + e.getMessage());
         }
+        /*2、获取日志参数*/
+        /*方法参数*/
+        String className = joinPoint.getTarget().getClass().getName();
+        String requestMethod = joinPoint.getSignature().getName();
+        String operationType = getAnnotationLog(joinPoint).operationType().getType();
+        String operationName = getAnnotationLog(joinPoint).operationName();
+        String createdBy = System.getProperty("user.name");
+        /*web请求参数*/
+        String requestAddress = WebUtils.getRequest().getServerName();
+        String requestIp = ServletUtil.getClientIP(WebUtils.getRequest());
+        int requestPort = WebUtils.getRequest().getServerPort();
+        String requestURI = WebUtils.getRequest().getRequestURI();
+        String requestPath = requestURI.substring(0, requestURI.lastIndexOf("/"));
+        String requestType = WebUtils.getRequest().getMethod();
+        /*3、输出日志参数*/
+        log.info("====================================输出日志参数====================================");
+        log.info("请求类:" + className);
+        log.info("请求方法:" + requestMethod);
+        log.info("方法描述:" + operationName);
+        log.info("方法类型:" + operationType);
+        log.info("请求人:" + createdBy);
+        log.info("请求地址:" + requestAddress);
+        log.info("请求IP:" + requestIp);
+        log.info("请求端口:" + requestPort);
+        log.info("请求路径:" + requestPath);
+        log.info("请求方式:" + requestType);
+        log.info("请求参数:" + params);
+        log.info("返回值:" + JSONUtil.toJsonStr(result));
+        /*存入数据库*/
+        SystemLog systemLog = new SystemLog();
+        systemLog.setClassName(className);
+        systemLog.setRequestMethod(requestMethod);
+        systemLog.setDescription(operationName);
+        systemLog.setMethodType(operationType);
+        systemLog.setCreatedBy(createdBy);
+        systemLog.setRequestAddress(requestAddress);
+        systemLog.setRequestIp(requestIp);
+        systemLog.setRequestPort(requestPort);
+        systemLog.setRequestPath(requestPath);
+        systemLog.setRequestType(requestType);
+        systemLog.setRequestParams(params);
+        sysLogService.saveLog(systemLog);
     }
 
     /**
@@ -160,7 +151,7 @@ public class LogAspect {
      * @return
      * @throws Exception
      */
-    private OperationLog getAnnotationLog(JoinPoint joinPoint) throws Exception {
+    private OperationLog getAnnotationLog(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();

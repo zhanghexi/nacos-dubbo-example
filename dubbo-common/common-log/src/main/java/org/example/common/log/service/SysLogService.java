@@ -23,8 +23,8 @@ import java.sql.SQLException;
 @Component
 public class SysLogService {
 
-    private static final String LOG_SQL = "INSERT INTO SYSTEM_LOG (ID,CLASS_NAME,REQUEST_METHOD,DESCRIPTION,METHOD_TYPE," +
-            "CREATED_BY,REQUEST_ADDRESS,REQUEST_IP,REQUEST_PORT,REQUEST_PATH,REQUEST_TYPE,REQUEST_PARAMS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String LOG_SQL = "INSERT INTO SYSTEM_LOG (CLASS_NAME,REQUEST_METHOD,DESCRIPTION,METHOD_TYPE," +
+            "CREATED_BY,REQUEST_ADDRESS,REQUEST_IP,REQUEST_PORT,REQUEST_PATH,REQUEST_TYPE,REQUEST_PARAMS) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     @Async
     public void saveLog(SystemLog systemLog) throws SQLException, IOException, ClassNotFoundException {
@@ -32,18 +32,18 @@ public class SysLogService {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(LOG_SQL);
-            ps.setString(1, systemLog.getId());
-            ps.setString(2, systemLog.getClassName());
-            ps.setString(3, systemLog.getRequestMethod());
-            ps.setString(4, systemLog.getDescription());
-            ps.setString(5, systemLog.getMethodType());
-            ps.setString(6, systemLog.getCreatedBy());
-            ps.setString(7, systemLog.getRequestAddress());
-            ps.setString(8, systemLog.getRequestIp());
-            ps.setInt(9, systemLog.getRequestPort());
-            ps.setString(10, systemLog.getRequestPath());
-            ps.setString(11, systemLog.getRequestType());
-            ps.setString(12, systemLog.getRequestParams());
+            /*ps.setString(1, systemLog.getId());*/
+            ps.setString(1, systemLog.getClassName());
+            ps.setString(2, systemLog.getRequestMethod());
+            ps.setString(3, systemLog.getDescription());
+            ps.setString(4, systemLog.getMethodType());
+            ps.setString(5, systemLog.getCreatedBy());
+            ps.setString(6, systemLog.getRequestAddress());
+            ps.setString(7, systemLog.getRequestIp());
+            ps.setInt(8, systemLog.getRequestPort());
+            ps.setString(9, systemLog.getRequestPath());
+            ps.setString(10, systemLog.getRequestType());
+            ps.setString(11, systemLog.getRequestParams());
             int i = ps.executeUpdate();
             if (i == 1) {
                 log.info("入库成功");
