@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
+
 /**
  * @ClassName LogAspect
  * @User zhang
@@ -104,8 +106,8 @@ public class LogAspect {
         /*方法参数*/
         String className = joinPoint.getTarget().getClass().getName();
         String requestMethod = joinPoint.getSignature().getName();
-        String operationType = getAnnotationLog(joinPoint).operationType().getType();
-        String operationName = getAnnotationLog(joinPoint).operationName();
+        String operationType = Objects.requireNonNull(getAnnotationLog(joinPoint)).operationType().getType();
+        String operationName = Objects.requireNonNull(getAnnotationLog(joinPoint)).operationName();
         String createdBy = System.getProperty("user.name");
         /*web请求参数*/
         String requestAddress = WebUtils.getRequest().getServerName();
