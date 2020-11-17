@@ -1,4 +1,4 @@
-package org.example.provider.config.datasource;
+package org.example.common.db.config.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;

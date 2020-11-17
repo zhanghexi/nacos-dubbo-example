@@ -1,7 +1,7 @@
-package org.example.provider.config.mybatis.plugin;
+package org.example.common.db.config.mybatis.interceptor;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -13,6 +13,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.regex.Matcher;
  * @Version 1.0
  */
 @Log4j2
+@Component
 @Intercepts({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
         RowBounds.class, ResultHandler.class}),
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})})
@@ -56,13 +58,11 @@ public class SQLInterceptor implements Interceptor {
         long timing = end - start;
 
         /*设定过滤SQL语句的流程*/
-        /*方法名*/
-        String methodName = mappedStatement.getId();
         BoundSql boundSql = mappedStatement.getBoundSql(paramObj);
         Configuration configuration = mappedStatement.getConfiguration();
         /*格式化sql*/
         String sql = formatSql(boundSql, paramObj, configuration);
-        log.info("\n具体方法名：" + methodName + "\n完整的SQL：" + sql + "\nSQL执行时间：" + (timing / 1000 / 1000) + "ms");
+        log.info("\n完整的SQL：" + sql + "\nSQL执行时间：" + (timing / 1000 / 1000) + "ms");
         return result;
     }
 

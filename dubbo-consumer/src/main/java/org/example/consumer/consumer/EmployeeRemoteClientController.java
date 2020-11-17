@@ -30,7 +30,6 @@ public class EmployeeRemoteClientController {
     @OperationLog(operationName = "根据员工名字模糊查询员工信息", operationType = OperationTypeEnum.SELECT)
     @GetMapping(value = "/queryEmployeesByConditions/{empName}")
     public List<EmployeeDTO> queryEmployeesByConditions(@PathVariable("empName") String empName) {
-        List<EmployeeDTO> employeeDTOList = employeeRemoteProvider.queryEmployeesByConditions(empName);
-        return employeeDTOList;
+        return employeeRemoteProvider.queryEmployeesByConditions(empName);
     }
 }

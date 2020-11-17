@@ -32,7 +32,7 @@ public class SysLogService {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(LOG_SQL);
-            /*ps.setString(1, systemLog.getId());*/
+            /*赋值*/
             ps.setString(1, systemLog.getClassName());
             ps.setString(2, systemLog.getRequestMethod());
             ps.setString(3, systemLog.getDescription());
@@ -44,6 +44,7 @@ public class SysLogService {
             ps.setString(9, systemLog.getRequestPath());
             ps.setString(10, systemLog.getRequestType());
             ps.setString(11, systemLog.getRequestParams());
+            /*update*/
             int i = ps.executeUpdate();
             if (i == 1) {
                 log.info("入库成功");

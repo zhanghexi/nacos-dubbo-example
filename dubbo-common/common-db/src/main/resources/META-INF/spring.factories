@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.example.common.db.config.datasource.DataSourceConfig,\
+  org.example.common.db.config.mybatis.factory.OracleSqlSessionFactory,\
+  org.example.common.db.config.mybatis.interceptor.SQLInterceptor,\
+  org.example.common.db.config.mybatis.interceptor.SQLInterceptorListener,\
+  org.example.common.db.config.mybatis.MapperScanConfig
