@@ -13,6 +13,9 @@ import java.util.List;
  * @ClassName MyBatisListener
  * @User zhang
  * @Description 解决因pageHelper插件导致的MyBatis自定义拦截器不生效(打印不了完整SQL语句)的问题
+ * 参考文献：https://www.cnblogs.com/huiy/p/13354528.html
+ * https://blog.csdn.net/zhuwei_clark/article/details/108795420
+ * https://blog.csdn.net/weixin_45497155/article/details/106025321
  * @Author Lucien
  * @Date 2020/11/17 18:02
  * @Version 1.0
