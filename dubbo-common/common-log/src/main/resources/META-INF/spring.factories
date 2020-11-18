@@ -2,4 +2,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   org.example.common.log.aspect.LogAspect,\
   org.example.common.log.service.SysLogService,\
   org.example.common.log.util.DBUtils,\
-  org.example.common.log.util.WebUtils
+  org.example.common.log.util.WebUtils,\
+  org.example.common.log.config.LogJdbcConfig,\
+  org.example.common.log.config.CommonConfig,\
+  org.example.common.log.service.CommonService

@@ -2,6 +2,7 @@ package org.example.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @ClassName DubboClientApplication
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date 2020/10/19 11:34
  * @Version 1.0
  */
+@EnableAsync
 @SpringBootApplication
 public class DubboClientApplication {
 

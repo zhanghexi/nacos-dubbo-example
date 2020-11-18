@@ -9,3 +9,7 @@ spring:
       config:
         server-addr: 192.168.93.132:8848
         file-extension: yaml
+        shared-configs[0]:
+          # 共享配置
+          data-Id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          refresh: true
