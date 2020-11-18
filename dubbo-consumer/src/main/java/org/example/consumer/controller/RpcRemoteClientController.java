@@ -1,4 +1,4 @@
-package org.example.consumer.consumer;
+package org.example.consumer.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.config.annotation.Reference;

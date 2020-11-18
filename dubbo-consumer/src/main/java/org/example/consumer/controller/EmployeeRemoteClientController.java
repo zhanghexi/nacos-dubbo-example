@@ -1,4 +1,4 @@
-package org.example.consumer.consumer;
+package org.example.consumer.controller;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.example.api.dto.EmployeeDTO;
