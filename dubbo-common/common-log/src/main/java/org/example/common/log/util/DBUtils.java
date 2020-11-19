@@ -22,6 +22,13 @@ public class DBUtils {
     @Autowired
     private LogJdbcConfig logJdbcConfig;
 
+    /**
+     * 初始化数据库连接
+     *
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public Connection initConnection() throws ClassNotFoundException, SQLException {
         String driver = logJdbcConfig.getDriver();
         String url = logJdbcConfig.getUrl();
