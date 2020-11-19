@@ -1,5 +1,11 @@
 server:
   port: 9002
+  tomcat:
+    threads:
+      #tomcat最大线程数，默认为200
+      max: 200
+    #tomcat最大连接数
+    max-connections: 500
 spring:
   application:
     name: dubbo-consumer
